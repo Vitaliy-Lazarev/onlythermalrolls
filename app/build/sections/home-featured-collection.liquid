@@ -1,0 +1,148 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-collection">
+
+  {%- assign productsPerRow = section.settings.products-per-row -%}
+  {%- assign productsLimit = productsPerRow | times: section.settings.rows-per-section -%}
+  {%- assign sectionHeading = section.settings.title -%}
+  {%- assign border = section.settings.border -%}
+  {%- assign productsCollection = section.settings.collection -%}
+  {%- assign brandNames = settings.show-brand-names -%}
+  {%- assign altProductCard = settings.alt-product-card -%}
+  {%- assign imageBorders = settings.image-borders -%}
+  {%- assign enableQuickshop = settings.enable-quick-shop -%}
+
+    <section class="home-section featured-collection clearfix
+      {% if productsLimit > 4 %}multi-row{% endif %}
+      {% if sectionHeading != blank %}has-heading{% endif %}
+      {% if border %}has-border{% endif %}
+      content-area">
+
+      {% if sectionHeading != blank %}
+        <h2 class="section-title">{{ sectionHeading}}</h2>
+      {% endif %}
+
+      {% if productsCollection != "" %}
+        <ul class="product-list row-of-{{ productsPerRow }}">
+          {% for product in collections[productsCollection].products limit: productsLimit %}
+            {% include 'product-item' %}
+          {% endfor %}
+        </ul>
+      {% else %}
+        <ul class="product-list row-of-{{ productsPerRow }}">
+          {% for i in (1..productsLimit) %}
+            {% include 'product-item-demo' %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+    </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Show border",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "select",
+      "id": "products-per-row",
+      "label": "Number of products per row",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "rows-per-section",
+      "label": "Number of rows per section",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "9",
+          "label": "9"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "11",
+          "label": "11"
+        }
+      ],
+      "default": "6"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Featured collection",
+      "settings": {
+        "border":true,
+        "collection": "",
+        "products-per-row": "4",
+        "rows-per-section": "1"
+      }
+    }
+  ]
+}
+
+{% endschema %}

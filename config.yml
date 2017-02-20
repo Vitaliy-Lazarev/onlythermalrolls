@@ -1,0 +1,12 @@
+
+development:
+  store: onlythermalrolls.myshopify.com
+  api_key: 	2117cc13729c4a36bec3c770b10c2a11
+  password: 3b2e7a74f582eb69c6f01e7762484895
+  theme_id: 160541394
+  bucket_size: 40
+  refill_rate: 2
+  ignore_files:
+    - "*.swp"
+    - "*~"
+    - "config/settings_data.json"

@@ -1,0 +1,282 @@
+<div data-section-id="{{ section.id }}" data-section-type="collection-template">
+
+  {%- assign productsPerRow = section.settings.products-per-row -%}
+  {%- assign productsPerPage = productsPerRow | times: section.settings.rows-per-page -%}
+  {%- assign brandNames = settings.show-brand-names -%}
+  {%- assign altProductCard = settings.alt-product-card -%}
+  {%- assign imageBorders = settings.image-borders -%}
+  {%- assign enableQuickshop = settings.enable-quick-shop -%}
+  {%- assign collectionSidebar = section.settings.collection-sidebar -%}
+  {%- assign sidebarMenu = section.settings.collection-sidebar-menu -%}
+  {%- assign collectionSorting = section.settings.enable-sorting -%}
+  {%- assign tagFilters = section.settings.enable-tagfilter -%}
+  {%- assign paginationStyle = section.settings.pagination-style -%}
+  {%- assign enableCollectionImage = section.settings.show-collection-image -%}
+
+  {% if collection.image and enableCollectionImage %}
+    {% assign showCollectionImage = true %}
+  {% endif %}
+
+  {% paginate collection.products by productsPerPage %}
+
+    {% capture collection_url %}{% if collection.url.size == 0 %}/collections/all{% else %}{{ collection.url }}{% endif %}{% endcapture %}
+
+    <main class="content">
+      <header class="{% if showCollectionImage %}page-title {% endif %}collection-title-header" {% if showCollectionImage %}style="background-image: url({{ collection.image | img_url: 'master' }});"{% endif %}>
+        {% if showCollectionImage %}
+          <img class="collection-image" src="{{ collection.image | img_url: 'master' }}" alt="{{ collection.image.alt}}">
+          <div class="centering-wrapper">
+        {% endif %}
+
+          <div class="collection-title">
+            {% unless showCollectionImage %}
+              {% include 'breadcrumbs' %}
+            {% endunless %}
+
+            <h1 class="label">{{ collection.title }}</h1>
+
+            {% if collection.description.size %}
+              {% unless showCollectionImage %}
+                <div class="description rte">{{ collection.description }}</div>
+              {% endunless %}
+            {% endif %}
+          </div>
+
+        {% if showCollectionImage %}
+          </div>
+        {% endif %}
+      </header>
+
+      <div class="content-area clearfix">
+
+        <div class="collection-header clearfix">
+          {% if showCollectionImage %}
+            <div class="collection-heading-details">
+              {% include 'breadcrumbs' %}
+
+              {% if collection.description != blank %}
+                <div class="description rte">{{ collection.description }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% unless collectionSidebar %}
+            {% if collectionSorting or collection.all_tags.size > 0 and tagFilters %}
+              <div class="collection-heading-tools">
+                <div class="collection-tools-left">
+                  {% if collectionSorting %}
+                    <div class="tools-wrap">
+                      {% include 'collection-sort' %}
+                    </div>
+                  {% endif %}
+
+                  {% if collection.all_tags.size > 0 and tagFilters %}
+                    <div class="tools-wrap">
+                      {% include 'tags-dropdown' %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endunless %}
+
+          {% if collection.products.size == 0 %}
+            <p class="empty">{{ 'collections.collection.no_products' | t }}</p>
+          {% else %}
+        </div>
+
+        <ul class="product-list row-of-{{ productsPerRow }}
+          {% if collectionSidebar and collectionSorting or sidebarMenu != empty or collection.all_tags.size > 0 and tagFilters %}
+            product-list-withsidebar
+          {% endif %}">
+          {% for product in collection.products limit: productsPerPage %}
+            {% include 'product-item' %}
+          {% endfor %}
+        </ul>
+
+        {% if collectionSidebar and collectionSorting or sidebarMenu != empty or collection.all_tags.size > 0 and tagFilters %}
+          <aside class="product-list-sidebar">
+            {% if collectionSorting %}
+              {% include 'collection-sort' %}
+            {% endif %}
+
+            {% unless sidebarMenu == '' %}
+              <h2 class="sidebar-title">{{ linklists[sidebarMenu].title }}</h2>
+              <ul class="collection-sidebar-menu">
+                {% for link in linklists[sidebarMenu].links %}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {% endfor %}
+              </ul>
+            {% endunless %}
+
+            {% if collection.all_tags.size > 0 and tagFilters %}
+              {% include 'tags-list' %}
+            {% endif %}
+
+          </aside>
+        {% endif %}
+
+        {% endif %}
+
+        {% if paginate.previous or paginate.next %}
+          {% include 'pagination' %}
+        {% endif %}
+
+      </div>
+    </main>
+
+  {% endpaginate %}
+
+</div>
+
+{% schema %}
+{
+  "name": "Collection pages",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "checkbox",
+      "id": "show-breadcrumbs",
+      "label": "Show breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show-collection-image",
+      "label": "Show collection image"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "select",
+      "id": "products-per-row",
+      "label": "Number of products per row",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "rows-per-page",
+      "label": "Number of rows",
+      "default": "6",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "9",
+          "label": "9"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "11",
+          "label": "11"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "header",
+      "content": "Filtering"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-sorting",
+      "label": "Enable sorting",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-tagfilter",
+      "label": "Enable tag filter",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "collection-sidebar",
+      "label": "Enable sidebar",
+      "default": false
+    },
+    {
+      "type": "link_list",
+      "id": "collection-sidebar-menu",
+      "label": "Collection sidebar menu"
+    },
+    {
+      "type": "header",
+      "content": "Pagination"
+    },
+    {
+      "type": "select",
+      "id": "pagination-style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard pagination"
+        },
+        {
+          "value": "jump-to-page",
+          "label": "Jump-to-page pagination"
+        }
+      ],
+      "default": "standard"
+    }
+  ]
+}
+
+{% endschema %}

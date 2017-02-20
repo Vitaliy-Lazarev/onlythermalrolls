@@ -1,0 +1,226 @@
+<div data-section-id="{{ section.id }}" data-section-type="header">
+
+  {%- assign headerFormat = section.settings.header-format -%}
+  {%- assign headerCenter = section.settings.center-header -%}
+  {%- assign logo = section.settings.image -%}
+  {%- assign logoWidth = section.settings.logo-width -%}
+  {%- assign cartIcon = section.settings.cart-icon -%}
+  {%- assign enableMegaNav = section.settings.enable-mega-nav -%}
+  {%- assign catalogLabel = section.settings.catalog-label-override -%}
+  {%- assign meganavListOne = section.settings.meganav-list-one -%}
+  {%- assign meganavListTwo = section.settings.meganav-list-two -%}
+  {%- assign meganavListThree = section.settings.meganav-list-three -%}
+  {%- assign meganavLimit = section.settings.meganav-limit -%}
+  {%- assign topLevelColumns = section.settings.top-level-columns -%}
+  {%- assign brandNames = settings.show-brand-names -%}
+  {%- assign imageBorders = settings.image-borders -%}
+
+  <!-- hiding centered header initally to prevent loading flash -->
+  <header class="main-header-wrap
+    {% if headerFormat == 'minimal' %}
+      main-header-slim
+    {% else %}
+      main-header-nonstick
+    {% endif %}"
+    data-header-format="{{ headerFormat }}"
+    data-header-alignment="{{ headerCenter }}"
+
+    {% if headerCenter == true %}
+      style="display: none;"
+    {% endif %}>
+
+    <section class="main-header
+      {% if headerFormat == 'expanded' %}
+        header-social-links
+      {% endif %}">
+
+      {% include 'header-searchform' %}
+
+      <div class="action-links clearfix
+        {% unless headerCenter %}
+          content-area
+        {% endunless %}">
+
+        {% unless headerCenter %}
+          {% if headerFormat == 'expanded' %}
+            {% include 'social-links' %}
+          {% endif %}
+        {% endunless %}
+
+        {% unless headerFormat == 'minimal' %}
+          {% include 'header-tools' %}
+          {% include 'header-storetitle' %}
+        {% endunless %}
+      </div>
+
+      {% unless headerFormat == 'minimal' %}
+        {% include 'header-fullnav' %}
+      {% else %}
+        {% include 'header-minimal' %}
+      {% endunless %}
+
+      {% include 'header-compactnav' %}
+
+      {% if enableMegaNav %}
+        {% include 'header-meganav' %}
+      {% endif %}
+    </section>
+
+  </header>
+
+  <script>
+    window.headerJSON = {{ section.settings | json }};
+
+    {% if settings.show-currency-switcher %}
+      Theme.currencySwitcher = true
+      {% if settings.currency-switcher-format %}
+        Theme.currencySwitcherFormat = '{{ settings.currency-switcher-format }}';
+        Theme.moneyFormat = {{ shop[settings.currency-switcher-format] | strip_html | json }};
+      {% endif %}
+
+      {% if settings.currency-switcher-default.size > 0 %}
+        Theme.defaultCurrency = '{{ settings.currency-switcher-default }}';
+      {% endif %}
+    {% endif %}
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Logo image",
+      "info": "400 x 200px .jpg recommended"
+    },
+    {
+      "type": "text",
+      "id": "logo-width",
+      "label": "Logo width",
+      "info": "Custom logo width (in pixels)",
+      "default": "400"
+    },
+    {
+      "type": "checkbox",
+      "id": "center-header",
+      "label": "Center logo (or site title)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "header-format",
+      "label": "Header Format",
+      "default": "normal",
+      "info": "If header format set to Minimal, the logo position is always centered on smaller screen sizes regardless of position chosen above.",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "expanded",
+          "label": "Expanded: show social links"
+        },
+        {
+          "value": "minimal",
+          "label": "Minimal: short and sticky"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Cart preview"
+    },
+    {
+      "type": "select",
+      "id": "cart-icon",
+      "label": "Cart icon",
+      "default": "cart",
+      "options": [
+        {
+          "value": "cart",
+          "label": "Cart"
+        },
+        {
+          "value": "bag",
+          "label": "Bag"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-mega-nav",
+      "label": "Enable mega nav ([?](https:\/\/www.pixelunion.net/support/atlantic-theme-manual#toc-h9))"
+    },
+    {
+      "type": "text",
+      "id": "catalog-label-override",
+      "label": "Override \"catalog\" label"
+    },
+    {
+      "type": "link_list",
+      "id": "meganav-list-one",
+      "label": "Column 1"
+    },
+    {
+      "type": "link_list",
+      "id": "meganav-list-two",
+      "label": "Column 2"
+    },
+    {
+      "type": "link_list",
+      "id": "meganav-list-three",
+      "label": "Column 3"
+    },
+    {
+      "type": "select",
+      "id": "meganav-limit",
+      "label": "Truncate list after",
+      "options": [
+        {
+          "value": "6",
+          "label": "6 items"
+        },
+        {
+          "value": "12",
+          "label": "12 items"
+        },
+        {
+          "value": "18",
+          "label": "18 items"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "top-level-columns",
+      "label": "Sub-columns layout",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "One column"
+        },
+        {
+          "value": "two-columns",
+          "label": "Two columns"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}
