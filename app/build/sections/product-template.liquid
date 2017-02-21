@@ -226,6 +226,12 @@
                 <div id="infiniteoptions-container" class="side-labels"></div>
                 <div id="uploadery-container" class="side-labels"></div>
 
+
+                  {% if product.variants.first.sku %}
+                    <span class="p-sku"><strong>sku:</strong> {{ product.variants.first.sku }}</span>
+                  {% endif %}
+
+
                 {% if productQuantityOption %}
                   <div class="selector-wrapper quantity">
                     <label>{{ 'general.quantity' | t }}</label>
@@ -247,11 +253,6 @@
             {% endif %}
           </div>
 
-          {% if product.description.size > 0 %}
-          <div class="module description">
-            <div class="rte" itemprop="description">{{ product.description }}</div>
-          </div>
-          {% endif %}
         </div>
       </div>
 
@@ -263,6 +264,21 @@
         add_to_cart_text: add_to_cart_text,
         enable_history: true
       %}
+
+      <div class="wrap-tabs">
+        <ul class="tabs">
+          <li><a href="#tab-1">Description</a></li>
+          <li><a href="#tab-2">Reviews</a></li>
+        </ul>
+        <div id="tab-1">
+            {% if product.description.size > 0 %}
+              <div class="rte special">{{ product.description }}</div>
+            {% endif %}
+        </div>
+        <div id="tab-2">
+          <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+        </div>
+      </div>
     </section>
 
     {% if relatedProducts %}

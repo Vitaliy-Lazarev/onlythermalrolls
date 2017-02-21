@@ -97,6 +97,10 @@
             data-variant-title="{{ itemType.variants[0].title }}" />
         {% endif %}
 
+          {% if product.variants.first.sku %}
+            <span class="p-sku"><strong>sku:</strong> {{ product.variants.first.sku }}</span>
+          {% endif %}
+
         {% if quickshopProductQuantityOption %}
           <div class="selector-wrapper quantity">
             <label>{{ 'general.quantity' | t }}</label>
@@ -120,13 +124,6 @@
 
     </form>
 
-    <div class="module description">
-      {% if itemType.description.size > 0 %}
-        <div class="rte special">{{ itemType.description }}</div>
-      {% endif %}
-      <a class="go-to-product" href="{{ itemType.url | within: collection }}">{{ 'products.product.visit_page' | t }} <span>→</span></a>
-    </div>
-
   </div>
 
   {% assign add_to_cart_text = 'products.product.add_to_cart' | t %}
@@ -137,6 +134,24 @@
     add_to_cart_text: add_to_cart_text,
     enable_history: true
   %}
+
+  <div class="wrap-tabs">
+    <ul class="tabs">
+      <li><a href="#tab-{{ itemType.id }}">Description</a></li>
+      <li><a href="#tab-{{ itemType.id | plus:1 }}">Reviews</a></li>
+    </ul>
+    <div id="tab-{{ itemType.id }}">
+        {% if itemType.description.size > 0 %}
+          <div class="rte special">{{ itemType.description }}</div>
+        {% endif %}
+      <a class="go-to-product" href="{{ itemType.url | within: collection }}">{{ 'products.product.visit_page' | t }} <span>→</span></a>
+    </div>
+    <div id="tab-{{ itemType.id | plus:1 }}">
+      <div id="shopify-product-reviews" data-id="{{itemType.id}}">{{ itemType.metafields.spr.reviews }}</div>
+    </div>
+  </div>
+
+
 
 </div>
 

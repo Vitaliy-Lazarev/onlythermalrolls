@@ -1,0 +1,38 @@
+.wrap-tabs{
+  clear: both;
+  padding-top: 25px;
+  .tabs{
+    margin-bottom: 15px;
+    li{
+      display: inline-block;
+      a{
+        display: inline-block;
+        padding: 15px;
+        border: 1px solid #ddd;
+        margin-right: 10px;
+      }
+      .active{
+        background-color: #dfcbbc;
+        color: #fff
+      }
+    }
+  }
+  .spr-summary{
+    display: none;
+  }
+  .spr-form {
+    display: block !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+.quick-shop-modal{
+  .wrap-tabs{
+    .rte.special {
+      height: 155px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+  }
+}
