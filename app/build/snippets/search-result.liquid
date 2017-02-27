@@ -2,10 +2,10 @@
 
   {% if item.object_type == 'product' %}
 
-    <figure>
+    <div class="image-name">
       <img alt="{{ item.featured_image.alt }}" src="{{ item.featured_image | product_img_url: 'large' }}">
       <a class="{% if imageBorders %}overlay{% endif %}" href="{{ item.url }}"></a>
-    </figure>
+    </div>
 
     <div class="details">
       {% if brandNames %}
