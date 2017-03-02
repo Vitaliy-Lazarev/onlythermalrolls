@@ -121,6 +121,11 @@ figure {
     height: 130px;
   }
 }
+.loader-form {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 30px;
+}
 div#SNBE_form_discount-wrapper,
 div#SNBE_popup_overlay,
 #SNBE_popup_container,
@@ -130,9 +135,8 @@ div#SNBE_popup_overlay,
 #SNBE_popup h3,
 div#SNBE_popup_photo,
 a.modalCloseImg.spurit-simplemodal-close,
-button#SNBE_form_submit,
-#SNBE_result,
-div#SNBE_form_variant-wrapper{
+div#SNBE_form_variant-wrapper,
+#SNBE_close{
   display: none !important;
 }
 div#SNBE_button{
@@ -177,4 +181,39 @@ input#add-to-cart {
   width: 100%;
   border-radius: 0;
 }
-
+div#SNBE_form_period-wrapper {
+  margin-bottom: 0 !important;
+}
+div#SNBE_form_customPeriod-wrapper + div{
+  margin: 0 !important;
+}
+.font-text{
+  font-size: 15px;
+}
+button#SNBE_form_submit {
+  float: none;
+  margin-top: 25px;
+  background-color: #000;
+  color: #fff;
+  padding: 10px 30px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: 12px;
+  &:hover{
+    background-color: #6a6a6a;
+  }
+}
+#SNBE_result.SNBE-result-success {
+  color: #fff !important;
+  position: relative;
+  &:after{
+    content: 'Close';
+    position: absolute;
+    top: 20px;
+    color: #fff;
+    margin-left: 10px;
+  }
+  &:hover{
+    cursor: pointer;
+  }
+}

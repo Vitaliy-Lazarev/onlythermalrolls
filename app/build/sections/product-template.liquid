@@ -255,21 +255,42 @@
 
                         $('body').bind('DOMNodeInserted',function(e){
 
-                            if($('div#SNBE_button').length && flag){
+                            if($('div#SNBE_button').length && flag) {
 
-                                if(flag){
+                                if (flag) {
 
-                                    setTimeout(function(){
+                                    setTimeout(function () {
 
                                         flag = false,
 
-                                            $('#SNBE_button').trigger( "click" );
+                                            $('#SNBE_button').trigger("click");
 
-                                        var element = $('#SNBE_popup_container').removeAttr( 'style' );
+                                        var element = $('#SNBE_popup_container').removeAttr('style');
+//                                        $('#SNBE_form_email').removeAttr( 'required' );
 
                                         $('.wrap-reminder').html(element);
+                                        $(element).before("<strong class='font-text'>Ensure that you don’t run out of paper! We can remind you to reorder the paper</strong>");
+                                        $('.wrap-reminder').toggleClass('loader-form');
 
-                                    }, 400)
+
+                                        $('#SNBE_form_submit').on('click', function(event){
+
+                                            setTimeout(function(){
+//
+                                              if($('#SNBE_result').hasClass('SNBE-result-success')) {
+
+                                                  $('#SNBE_result').on('click', function () {
+                                                      $(this).hide();
+                                                      $('#SNBE_form_email').val('');
+                                                      location.reload();
+                                                  });
+
+                                              }
+                                            }, 400)
+
+                                        });
+
+                                    }, 400);
 
                                 }
 
@@ -277,24 +298,25 @@
 
                         });
 
+
                         $('#add-to-cart').on('click', function(event){
 
-                            event.preventDefault();
-
-                            $('#SNBE_form_submit').trigger( "click" );
-
-                            setTimeout(function(){
-
-                                if($('#SNBE_result').hasClass('SNBE-result-success')) {
+//                            event.preventDefault();
+//
+//                            $('#SNBE_form_submit').trigger( "click" );
+//
+//                            setTimeout(function(){
+//
+//                                if($('#SNBE_result').hasClass('SNBE-result-success')) {
 
                                     $( "#product-form" ).submit();
 
-                                }
-                            }, 400)
+                               // }
+                            //}, 400)
+
                         });
 
                     })($);
-
 
                 </script>
 
